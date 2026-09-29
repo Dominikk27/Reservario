@@ -2,7 +2,7 @@ import React from 'react'
 
 
 interface CardData {
-  name: string;
+  full_name: string;
 }
 
 interface CardProps {
@@ -26,7 +26,7 @@ const PersonalCard = ({ personalData, onChange, checked }: CardProps) => {
         `}>
           <div className="flex justify-between items-start">
             <div className="flex-col">
-              <p className='text-xl font-bold'>{personalData.name}</p>
+              <p className='text-xl font-bold'>{personalData.full_name}</p>
               <a href="https://linkedin.com">HH</a>
             </div>
           </div>

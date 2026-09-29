@@ -1,13 +1,9 @@
 import React from 'react'
 
-interface CardData {
-  name: string;
-  duration?: string;
-  price: number;
-}
+import type { Service } from '../../../types/service';
 
 interface CardProps {
-  cardData: CardData;
+  cardData: Service;
   checked: boolean;
   onChange: () => void;
 }
@@ -28,7 +24,7 @@ const Card = ({ cardData, checked, onChange }: CardProps ) => {
           <div className="flex justify-between items-start">
             <div className="flex-col">
               <p className='text-xl font-bold'>{cardData.name}</p>
-              <p className='text-xs font-bold'>{cardData.duration}</p>
+              <p className='text-xs font-bold'>{cardData.duration_minutes} min</p>
             </div>
             <div className="flex">
               {cardData.price} €

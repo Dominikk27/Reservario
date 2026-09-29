@@ -61,8 +61,9 @@ const ClientDataForm = ({ clientData,setClientData }: ClientProps) => {
             className='px-1 py-2 border rounded-lg flex-1'
             />
         <input 
-            type="number" 
+            type="tel" 
             name="phone" 
+            placeholder='+421912345678'
             value={clientData.phone}
             onChange={(e) =>
                 setClientData({
