@@ -62,11 +62,32 @@ CREATE TABLE time_off (
         )
 );
 
-CREATE TABLE reservations (
+CREATE TABLE working_breaks(
     id SERIAL PRIMARY KEY,
     personal_id INTEGER NOT NULL,
+    day_of_week INTEGER NOT NULL,
+    start_time TIME NOT NULL,
+    end_time TIME NOT NULL,
+    CONSTRAINT fk_personal_break
+        FOREIGN KEY (personal_id)
+        REFERENCES personal(id)
+        ON DELETE CASCADE,
+    CHECK (start_time < end_time),
+    CHECK (day_of_week BETWEEN 1 AND 7)
+);
+
+
+CREATE TABLE reservations (
+    id SERIAL PRIMARY KEY,
+
+    personal_id INTEGER NOT NULL,
     service_id INTEGER NOT NULL,
-    client_id INTEGER NOT NULL,
+    client_id INTEGER,
+
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    email VARCHAR(250),
+    phone VARCHAR(30),
 
     start_time TIMESTAMP NOT NULL,
     end_time TIMESTAMP NOT NULL,
@@ -82,27 +103,11 @@ CREATE TABLE reservations (
     CONSTRAINT fk_reservation_service
         FOREIGN KEY (service_id)
         REFERENCES services(id),
-    
+
     CONSTRAINT fk_reservation_client
         FOREIGN KEY (client_id)
         REFERENCES clients(id),
-    
-    CONSTRAINT valid_reservation_time 
+
+    CONSTRAINT valid_reservation_time
         CHECK (start_time < end_time)
 );
-
-
-
-CREATE TABLE working_breaks(
-    id SERIAL PRIMARY KEY,
-    personal_id INTEGER NOT NULL,
-    day_of_week INTEGER NOT NULL,
-    start_time TIME NOT NULL,
-    end_time TIME NOT NULL,
-    CONSTRAINT fk_personal_break
-        FOREIGN KEY (personal_id)
-        REFERENCES personal(id)
-        ON DELETE CASCADE,
-    CHECK (start_time < end_time),
-    CHECK (day_of_week BETWEEN 1 AND 7)
-)
