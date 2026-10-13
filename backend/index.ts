@@ -13,23 +13,36 @@ import workingHoursFetch from "./endpoints/GET/working-hours";
 
 import sendReservation from "./endpoints/POST/Reservation";
 
+import { loginRouter } from "./endpoints/POST/Login";
+import { createAdmin } from "./scripts/createAdmin";
 
 
-
-const app: Express = express();
-app.use(cors());
-app.use(express.json());
-const port = 3000;
+const startServer = async () => {
+    await createAdmin();
 
 
-app.use("/api/health", healthRouter);
-app.use("/api/getServices", serviceFetch);
-app.use("/api/getPersonal", personalFetch);
-app.use("/api/working-hours", workingHoursFetch);
-
-app.use("/api/sendReservation", sendReservation);
+    const app: Express = express();
+    app.use(cors());
+    app.use(express.json());
+    const port = 3000;
 
 
-app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
+    app.use("/api/health", healthRouter);
+    app.use("/api/getServices", serviceFetch);
+    app.use("/api/getPersonal", personalFetch);
+    app.use("/api/working-hours", workingHoursFetch);
+
+    app.use("/api/sendReservation", sendReservation);
+
+    app.use("/login", loginRouter);
+
+
+    app.listen(port, () => {
+        console.log(`Server running on http://localhost:${port}`);
+    });
+}
+
+startServer().catch((err) => {
+    console.error("Error starting server:", err);
+    process.exit(1);
 });

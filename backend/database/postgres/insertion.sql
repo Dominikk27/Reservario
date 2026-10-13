@@ -7,6 +7,11 @@ TRUNCATE TABLE
     services
 RESTART IDENTITY CASCADE;
 
+INSERT INTO roles (name)
+VALUES
+    ('admin'),
+    ('employee');
+
 INSERT INTO services (name, duration_minutes, price)
 VALUES
     ('Haircut', 30, 32.00),
@@ -15,12 +20,12 @@ VALUES
 
 
 
-INSERT INTO personal (full_name)
+INSERT INTO personal (  first_name, last_name, role_id)
 VALUES
-    ('Janko Mrkvička'),
-    ('Ferko Netuším'),
-    ('Katarína Neviem'),
-    ('Kristína Mrkvičková');
+    ('Janko', 'Mrkvička', 2),
+    ('Ferko', 'Netuším', 2),
+    ('Katarína', 'Neviem', 2),
+    ('Kristína', 'Mrkvičková', 2);
 
 
 INSERT INTO working_hours (personal_id, day_of_week, start_time, end_time)

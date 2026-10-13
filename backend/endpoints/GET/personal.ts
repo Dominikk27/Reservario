@@ -5,7 +5,12 @@ const router = Router();
 
 router.get("/", async (req, res) => {
     try{
-        const result = await postgres.query("SELECT * FROM personal");
+        const result = await postgres.query(`
+            SELECT p.id, p.first_name, p.last_name 
+            FROM personal p 
+            JOIN roles r ON p.role_id = r.id
+            WHERE r.name = 'employee'
+        `);
 
         res.status(200).json(result.rows);
 

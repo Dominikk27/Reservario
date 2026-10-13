@@ -7,10 +7,38 @@ CREATE TABLE services (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE personal_accounts (
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(100) UNIQUE,
+    email VARCHAR(250) UNIQUE,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT account_has_identifier
+        CHECK (username IS NOT NULL OR email IS NOT NULL)
+);
+
+CREATE TABLE roles (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+
+
 CREATE TABLE personal (
     id SERIAL PRIMARY KEY,
-    full_name VARCHAR(100) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    account_id INTEGER UNIQUE,
+    first_name VARCHAR(100) NOT NULL,
+    last_name VARCHAR(100) NOT NULL,
+    role_id INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    CONSTRAINT fk_personal_account
+        FOREIGN KEY (account_id)
+        REFERENCES personal_accounts(id),
+
+    CONSTRAINT fk_personal_role
+        FOREIGN KEY (role_id)
+        REFERENCES roles(id)
 );
 
 CREATE TABLE clients (
